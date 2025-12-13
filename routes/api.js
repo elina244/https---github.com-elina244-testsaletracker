@@ -22,19 +22,30 @@ prisma.$connect().then(() => {
 router.post('/data', async (req, res) => {
     const { productName, saleDate, quantity, price, total, customerName, paymentMethod } = req.body
     try {
+        // Ensure proper type conversions
+        let dateValue = new Date()
+        if (saleDate) {
+            // Handle ISO date string - extract date only
+            const dateStr = saleDate instanceof String ? saleDate : new Date(saleDate).toISOString().split('T')[0]
+            dateValue = new Date(dateStr)
+        }
+        
+        const createData = {
+            productName: String(productName || ''),
+            saleDate: dateValue,
+            quantity: parseInt(quantity) || 0,
+            price: parseFloat(price) || 0,
+            total: parseFloat(total) || 0,
+            customerName: String(customerName || ''),
+            paymentMethod: String(paymentMethod || ''),
+        }
+        
         const newSale = await prisma.sales.create({
-            data: {
-                productName,
-                saleDate,
-                quantity,
-                price,
-                total,
-                customerName,
-                paymentMethod,
-            },
+            data: createData,
         })
         res.status(201).json(newSale)
     } catch (error) {
+        console.error('Create error:', error)
         res.status(500).json({ error: 'Failed to create sale' })
     }
 })
@@ -72,20 +83,31 @@ router.put('/data/:id', async (req, res) => {
     const { id } = req.params
     const { productName, saleDate, quantity, price, total, customerName, paymentMethod } = req.body
     try {
+        // Ensure proper type conversions
+        let dateValue = new Date()
+        if (saleDate) {
+            // Handle ISO date string - extract date only
+            const dateStr = saleDate instanceof String ? saleDate : new Date(saleDate).toISOString().split('T')[0]
+            dateValue = new Date(dateStr)
+        }
+        
+        const updateData = {
+            productName: String(productName || ''),
+            saleDate: dateValue,
+            quantity: parseInt(quantity) || 0,
+            price: parseFloat(price) || 0,
+            total: parseFloat(total) || 0,
+            customerName: String(customerName || ''),
+            paymentMethod: String(paymentMethod || ''),
+        }
+        
         const updatedSale = await prisma.sales.update({
             where: { id },
-            data: {
-                productName,
-                saleDate,
-                quantity,
-                price,
-                total,
-                customerName,
-                paymentMethod,
-            },
+            data: updateData,
         })
         res.json(updatedSale)
     } catch (error) {
+        console.error('Update error:', error)
         res.status(500).json({ error: 'Failed to update sale' })
     }
 })
@@ -95,10 +117,10 @@ router.put('/data/:id', async (req, res) => {
 router.delete('/data/:id', async (req, res) => {
     const { id } = req.params
     try {
-        await prisma.sales.delete({
+        const deletedSale = await prisma.sales.delete({
             where: { id },
         })
-        res.status(204).send()
+        res.json(deletedSale)
     } catch (error) {
         res.status(500).json({ error: 'Failed to delete sale' })
     }

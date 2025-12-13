@@ -15,8 +15,28 @@ app.get('/', (req, res) => {
 // CREATE
 app.post('/data', async (req, res) => {
   try {
+    const { productName, saleDate, quantity, price, total, customerName, paymentMethod } = req.body
+    
+    // Ensure proper type conversions
+    let dateValue = new Date()
+    if (saleDate) {
+      // Extract just the date portion (YYYY-MM-DD)
+      const dateStr = typeof saleDate === 'string' ? saleDate.split('T')[0] : new Date(saleDate).toISOString().split('T')[0]
+      dateValue = new Date(dateStr)
+    }
+    
+    const createData = {
+      productName: String(productName || ''),
+      saleDate: dateValue,
+      quantity: parseInt(quantity) || 0,
+      price: parseFloat(price) || 0,
+      total: parseFloat(total) || 0,
+      customerName: String(customerName || ''),
+      paymentMethod: String(paymentMethod || ''),
+    }
+    
     const sale = await prisma.sales.create({
-      data: req.body
+      data: createData
     })
     res.json(sale)
   } catch (err) {
@@ -59,9 +79,29 @@ app.get('/search', async (req, res) => {
 app.put('/data/:id', async (req, res) => {
   try {
     const { id } = req.params
+    const { productName, saleDate, quantity, price, total, customerName, paymentMethod } = req.body
+    
+    // Ensure proper type conversions
+    let dateValue = new Date()
+    if (saleDate) {
+      // Extract just the date portion (YYYY-MM-DD)
+      const dateStr = typeof saleDate === 'string' ? saleDate.split('T')[0] : new Date(saleDate).toISOString().split('T')[0]
+      dateValue = new Date(dateStr)
+    }
+    
+    const updateData = {
+      productName: String(productName || ''),
+      saleDate: dateValue,
+      quantity: parseInt(quantity) || 0,
+      price: parseFloat(price) || 0,
+      total: parseFloat(total) || 0,
+      customerName: String(customerName || ''),
+      paymentMethod: String(paymentMethod || ''),
+    }
+    
     const sale = await prisma.sales.update({
       where: { id },
-      data: req.body
+      data: updateData
     })
     res.json(sale)
   } catch (err) {
@@ -74,10 +114,10 @@ app.put('/data/:id', async (req, res) => {
 app.delete('/data/:id', async (req, res) => {
   try {
     const { id } = req.params
-    await prisma.sales.delete({
+    const sale = await prisma.sales.delete({
       where: { id }
     })
-    res.status(204).send()
+    res.json(sale)
   } catch (err) {
     console.error(err)
     res.status(500).json({ error: 'Failed to delete sale' })

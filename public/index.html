@@ -39,24 +39,43 @@
         <label for="quantity">Quantity</label>
         <input required type="number" name="quantity" id="quantity" min="1" />
 
-        <label for="price">Price</label>
+        <label for="price">Original Price</label>
         <input required type="number" name="price" id="price" step="0.01" />
 
-        <label for="total">Total</label>
+        <label for="total">Sale Price</label>
         <input required type="number" name="total" id="total" step="0.01" />
 
         <label for="customerName">Customer Name</label>
         <input required type="text" name="customerName" id="customerName" placeholder="e.g. John Doe" autocomplete="off" />
 
-        <label for="paymentMethod">Payment Method</label>
-        <input required type="text" name="paymentMethod" id="paymentMethod" placeholder="e.g. Credit Card" autocomplete="off" />
+        <label>Payment Method</label>
+        <div class="payment-options">
+          <label class="radio-label">
+            <input type="radio" name="paymentMethod" value="Credit Card" required />
+            Credit Card
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="paymentMethod" value="Cash" required />
+            Cash
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="paymentMethod" value="Gift Card" required />
+            Gift Card
+          </label>
+          <label class="radio-label">
+            <input type="radio" name="paymentMethod" value="Debit Card" required />
+            Debit Card
+          </label>
+        </div>
       </fieldset>
 
       <button type="submit">Submit Sale</button>
     </form>
   </div>
 
-  <main></main>
+  <main>
+    <section id="contentArea"></section>
+  </main>
 
   <section id="intro"></section>
 
