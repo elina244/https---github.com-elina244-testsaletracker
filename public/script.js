@@ -11,20 +11,35 @@ let formHeading = document.querySelector('#formPopover h2')
 // Get form data and process each type of input
 const getFormData = () => {
     const formData = new FormData(myForm)
-    const json = Object.fromEntries(formData)
+    const json = {}
 
-    // Handle different input types
-    myForm.querySelectorAll('input').forEach(el => {
-        const value = json[el.name]
-        const isEmpty = !value || value.trim() === ''
-
-        if (el.type === 'number') {
-            json[el.name] = isEmpty ? null : Number(value)
+    // Process each form field
+    for (let [key, value] of formData.entries()) {
+        const input = myForm.elements[key]
+        
+        if (!input) {
+            json[key] = value
+            continue
         }
-        else if (el.type === 'date') {
-            json[el.name] = isEmpty ? null : new Date(value).toISOString()
+        
+        if (input.type === 'number') {
+            // For number inputs, convert to number or null if empty
+            json[key] = (value !== undefined && value !== null && value !== '') ? Number(value) : null
         }
-    })
+        else if (input.type === 'date') {
+            // For date inputs, convert to ISO string or null if empty
+            json[key] = (value && value.trim() !== '') ? new Date(value).toISOString() : null
+        }
+        else if (input.type === 'text') {
+            // For text inputs, keep as string or null if empty
+            json[key] = (value && value.trim() !== '') ? value.trim() : null
+        }
+        else {
+            // For other inputs (radio, etc.), keep the value as-is
+            json[key] = value
+        }
+    }
+    
     return json
 }
 

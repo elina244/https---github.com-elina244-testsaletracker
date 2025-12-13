@@ -15,7 +15,7 @@ model sales {
   price           Float
   total           Float
   customerName    String
-  store           String
+  store           String?
   salePercentage  Float?
   paymentMethod   String
 }

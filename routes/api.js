@@ -20,7 +20,7 @@ prisma.$connect().then(() => {
 // ----- CREATE (POST) -----
 // Create a new record for the configured model
 router.post('/data', async (req, res) => {
-    const { productName, saleDate, quantity, price, total, customerName, paymentMethod } = req.body
+    const { productName, saleDate, quantity, price, total, customerName, store, salePercentage, paymentMethod } = req.body
     try {
         // Ensure proper type conversions
         let dateValue = new Date()
@@ -37,6 +37,8 @@ router.post('/data', async (req, res) => {
             price: parseFloat(price) || 0,
             total: parseFloat(total) || 0,
             customerName: String(customerName || ''),
+            store: (store !== undefined && store !== null && store !== '') ? String(store) : null,
+            salePercentage: (salePercentage !== undefined && salePercentage !== null && salePercentage !== '') ? parseFloat(salePercentage) : null,
             paymentMethod: String(paymentMethod || ''),
         }
         
@@ -81,7 +83,7 @@ router.get('/search', async (req, res) => {
 // Listen for PUT requests
 router.put('/data/:id', async (req, res) => {
     const { id } = req.params
-    const { productName, saleDate, quantity, price, total, customerName, paymentMethod } = req.body
+    const { productName, saleDate, quantity, price, total, customerName, store, salePercentage, paymentMethod } = req.body
     try {
         // Ensure proper type conversions
         let dateValue = new Date()
@@ -98,6 +100,8 @@ router.put('/data/:id', async (req, res) => {
             price: parseFloat(price) || 0,
             total: parseFloat(total) || 0,
             customerName: String(customerName || ''),
+            store: (store !== undefined && store !== null && store !== '') ? String(store) : null,
+            salePercentage: (salePercentage !== undefined && salePercentage !== null && salePercentage !== '') ? parseFloat(salePercentage) : null,
             paymentMethod: String(paymentMethod || ''),
         }
         
