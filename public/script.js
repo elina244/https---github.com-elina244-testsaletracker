@@ -136,6 +136,7 @@ const renderItem = (item) => {
     const saleDate = item.saleDate ? new Date(item.saleDate).toLocaleDateString() : 'N/A'
     const total = item.total ? `$${item.total.toFixed(2)}` : '$0.00'
     const price = item.price ? `$${item.price.toFixed(2)}` : '$0.00'
+    const salePercentage = item.salePercentage ? `${item.salePercentage}%` : 'N/A'
 
     const template = /*html*/`  
     <div class="item-heading">
@@ -156,11 +157,17 @@ const renderItem = (item) => {
             <div class="detail">
                 <strong>Sale Price:</strong> ${total}
             </div>
+            <div class="detail">
+                <strong>Sale Percentage:</strong> ${salePercentage}
+            </div>
         </div>
     </div>
     <div class="item-info">
         <section class="customer">
             <strong>Customer:</strong> ${item.customerName || 'N/A'}
+        </section>
+        <section class="store">
+            <strong>Store:</strong> ${item.store || 'N/A'}
         </section>
         <section class="payment">
             <strong>Payment:</strong> ${item.paymentMethod || 'N/A'}
