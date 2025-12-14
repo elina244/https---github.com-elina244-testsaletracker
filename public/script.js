@@ -7,6 +7,7 @@ let contentArea = document.querySelector('#contentArea')
 let formPopover = document.querySelector('#formPopover')
 let createButton = document.querySelector('#createButton')
 let formHeading = document.querySelector('#formPopover h2')
+let submitButton = document.querySelector('#myForm button[type="submit"]')
 
 // Get form data and process each type of input
 const getFormData = () => {
@@ -234,7 +235,9 @@ const fetchItems = async () => {
 }
 
 // Revert to the default form title on reset
-myForm.addEventListener('reset', () => formHeading.textContent = '🛒 Record a Sale')
+myForm.addEventListener('reset', () => {
+    formHeading.textContent = '🛒 Record a Sale'
+})
 
 // Reset the form when the create button is clicked
 createButton.addEventListener('click', () => myForm.reset())
