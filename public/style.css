@@ -205,11 +205,13 @@ button:hover {
 }
 
 .item-card .customer,
+.item-card .store,
 .item-card .payment {
     color: rgba(255, 255, 255, 0.95);
 }
 
 .item-card .customer strong,
+.item-card .store strong,
 .item-card .payment strong {
     color: #fff;
 }
@@ -239,8 +241,14 @@ button:hover {
     margin-bottom: 15px;
 }
 
+.sale-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
 .detail {
-    margin-bottom: 8px;
+    margin-bottom: 0;
     font-size: 1em;
 }
 
