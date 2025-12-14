@@ -5,7 +5,7 @@
 
 body {
     font-family: 'Jost', sans-serif;
-    background: linear-gradient(135deg, #FDB913 0%, #FFA500 25%, #FF6B6B 50%, #4ECDC4 75%, #45B7D1 100%);
+    background: #001f3f;
     background-attachment: fixed;
     margin: 0;
     padding: 20px;
